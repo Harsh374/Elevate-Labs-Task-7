@@ -1,0 +1,113 @@
+1. What is a support vector?
+Support vectors are the data points that lie closest to the decision boundary (or hyperplane) in an SVM model. 
+These points are critical because they "support" or define the position of the hyperplane. 
+Specifically:
+Support vectors are the data points that are either on the margin boundary or inside the margin (in case of soft margin SVM).
+They are the most difficult points to classify and have the most direct influence on determining the optimal hyperplane.
+If you were to remove all other points in the dataset except for the support vectors, the SVM would still generate the exact same decision boundary.
+Mathematically, support vectors are the points where the constraints in the optimization problem are active, meaning they have non-zero Lagrange multipliers.
+
+2. What does the C parameter do?
+The C parameter is a regularization parameter that controls the trade-off between achieving a low training error and a low testing error (i.e., the ability to generalize to unseen data).
+Small C values: Create a wider margin that allows more margin violations (more points can be on the wrong side of the margin or hyperplane), which may lead to more misclassifications but potentially better generalization.
+Large C values: Lead to a narrower margin that allows fewer margin violations, trying to classify all training examples correctly but potentially overfitting to the training data.
+In mathematical terms, C determines the penalty for misclassification in the objective function of the SVM optimization problem. 
+It's essentially the inverse of the regularization strength.
+
+3. What are kernels in SVM?
+Kernels in SVM are functions that transform the input data into a higher-dimensional space to make non-linearly separable data linearly separable. 
+This is known as the "kernel trick" and it's one of the most powerful aspects of SVM.
+The kernel trick allows SVMs to model complex decision boundaries without explicitly computing the transformation of data points to higher dimensions, which would be computationally expensive. 
+Instead, kernels compute the dot product of data points in the transformed space directly.
+
+Common kernel functions include:
+Linear kernel: K(x,y) = x·y
+Polynomial kernel: K(x,y) = (x·y + c)^d
+Radial Basis Function (RBF)/Gaussian kernel: K(x,y) = exp(-γ||x-y||²)
+Sigmoid kernel: K(x,y) = tanh(αx·y + c)
+
+4. What is the difference between linear and RBF kernel?
+Linear Kernel:
+
+Maps input data to the same dimensional space (no transformation)
+Creates a linear decision boundary (a straight line in 2D, a plane in 3D, etc.)
+Works well when data is linearly separable
+Has fewer hyperparameters (only C)
+Generally faster to train and more interpretable
+Feature importance can be directly obtained from the coefficients
+
+RBF (Radial Basis Function) Kernel:
+
+Maps input data to an infinite-dimensional space
+Creates a non-linear decision boundary that can capture more complex patterns
+Works well with non-linearly separable data
+Has additional hyperparameters (γ and C)
+Generally needs more tuning and can be slower to train
+More flexible but potentially more prone to overfitting
+Feature importance cannot be directly determined
+
+The RBF kernel measures the similarity between points based on their distance. 
+The γ parameter determines how far the influence of a single training example reaches - low values mean 'far' and high values mean 'close'.
+
+5. What are the advantages of SVM?
+
+Effective in high-dimensional spaces, even when the number of dimensions exceeds the number of samples.
+Memory efficient since it uses only a subset of training points (support vectors) in the decision function.
+Versatile through different kernel functions that can be specified for the decision function.
+Robust against overfitting, especially in high-dimensional space, due to the regularization parameter.
+Theoretically well-founded with a clear mathematical formulation based on structural risk minimization.
+Good generalization performance when properly tuned.
+Can handle non-linear decision boundaries effectively using appropriate kernels.
+Works well with both structured and unstructured data (text, images, etc.)
+Can provide probabilistic outputs with proper calibration.
+
+6. Can SVMs be used for regression?
+Yes, SVMs can be adapted for regression tasks through a method called Support Vector Regression (SVR). 
+The key differences from classification are:
+Instead of finding a hyperplane that maximizes the margin between classes, SVR finds a function that deviates from the measured values by a value no greater than ε (epsilon) for each training point.
+It aims to fit as many instances as possible within the ε-margin while balancing the trade-off for allowing some points to fall outside this margin.
+SVR introduces an ε-insensitive loss function that ignores errors that are within ε distance of the true value.
+Like SVM for classification, SVR can use different kernels to handle non-linear regression problems and has similar hyperparameters (C, epsilon, and kernel parameters like γ).
+
+7. What happens when data is not linearly separable?
+When data is not linearly separable, SVMs can handle this in two ways:
+
+Soft Margin Classification:
+Allows some misclassifications to achieve a better overall fit
+Controlled by the C parameter, which determines the penalty for misclassification
+Balances between maximizing the margin and minimizing classification errors
+
+
+Kernel Transformation:
+Maps data into a higher-dimensional space where it becomes linearly separable
+Uses the kernel trick to efficiently compute relationships without explicitly transforming data
+Common kernels for non-linear data include RBF, polynomial, and sigmoid kernels
+The proper kernel choice depends on the data's inherent structure
+
+These approaches allow SVMs to create complex, non-linear decision boundaries even when the original data cannot be separated by a simple hyperplane.
+
+8. How is overfitting handled in SVM?
+Overfitting in SVMs is primarily handled through:
+
+Regularization Parameter (C):
+Lower C values increase regularization, creating a wider margin that's less tailored to individual training points
+Higher C values reduce regularization, potentially leading to overfitting
+
+Kernel Parameters:
+For RBF kernel, a smaller gamma (γ) value creates a smoother decision boundary less likely to overfit
+For polynomial kernel, lower degree values create simpler boundaries
+
+Cross-validation:
+K-fold cross-validation helps find optimal hyperparameters that generalize well
+Grid search or randomized search across hyperparameter space identifies the best combination
+
+Feature Selection/Reduction:
+Reducing unnecessary features helps prevent the model from learning noise
+Techniques like PCA can be used before applying SVM to reduce dimensionality
+
+Sufficient Training Data:
+Ensuring adequate training data relative to feature dimensionality helps prevent overfitting
+
+By properly tuning these aspects, SVMs can achieve a good balance between fitting the training data and generalizing to new, unseen data.
+
+              ***  
